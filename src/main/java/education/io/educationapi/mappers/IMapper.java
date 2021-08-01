@@ -14,8 +14,9 @@ public interface IMapper {
     Organization  organizationDtoToOrganization(OrganizationDto organization);
     List<OrganizationDto>  organizationToOrganizationDto(Iterable<Organization> organizationList);
 
-    BranchDto branchToBranchDto(Branch organization);
-    List<BranchDto> toBranchDto(List<BranchDto> BranchList);
+    BranchDto toBranchDto(Branch branch);
+    Branch toBranch( BranchDto branchDto);
+    List<BranchDto> toBranchDto(List<Branch> BranchList);
 
     StandardDto standardToStandardDto( Standard standard);
     List<StandardDto> standardsToStandardDto(Iterable<Standard> list);
