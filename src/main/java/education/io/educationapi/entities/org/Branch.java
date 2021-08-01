@@ -17,6 +17,9 @@ public class Branch extends CommonEntity {
     @Column(length = 200)
     private String description;
 
+    public Branch() {
+    }
+
     public Branch(String name, String description, Organization organization) {
         this.name = name;
         this.description = description;

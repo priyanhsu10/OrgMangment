@@ -11,10 +11,10 @@ import java.util.Collection;
 
 @Entity
 @Table(name ="tblstandards",schema = "public")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Standard  extends CommonEntity {
+    public Standard() {
+    }
+
     @Column(length = 50)
     @NotNull
     private  String name;

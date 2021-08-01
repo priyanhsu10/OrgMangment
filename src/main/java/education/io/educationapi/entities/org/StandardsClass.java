@@ -10,13 +10,14 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name ="tblclasses",schema = "public")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class StandardsClass extends CommonEntity {
     @Column(length = 50)
     @NotNull
     private  String name;
+
+    public StandardsClass() {
+    }
 
     public String getName() {
         return name;

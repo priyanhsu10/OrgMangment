@@ -18,7 +18,11 @@ public class Staff extends CommonEntity {
     @Column(length = 50)
     @NotNull
    private String firstName;
-    @Column(length = 50)
+
+ public Staff() {
+ }
+
+ @Column(length = 50)
     private String  middleName;
     @Column(length = 50)
     @NotNull

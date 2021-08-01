@@ -12,15 +12,16 @@ import java.sql.Date;
 
 @Entity
 @Table(name ="tblstudents",schema = "public")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Student extends CommonEntity {
     @Column(length = 50)
     @NotNull
     private String firstName;
     @Column(length = 50)
     private String  middleName;
+
+    public Student() {
+    }
 
     public String getFirstName() {
         return firstName;

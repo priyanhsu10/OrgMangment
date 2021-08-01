@@ -17,6 +17,10 @@ public class Subject extends CommonEntity {
     @Column(length = 50)
     @NotNull
     private  String name;
+
+    public Subject() {
+    }
+
     @Column(length = 200)
     private String description;
 
