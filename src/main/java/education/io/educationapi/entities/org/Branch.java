@@ -23,9 +23,6 @@ public class Branch extends CommonEntity {
         this.organization = organization;
     }
 
-    public Branch() {
-    }
-
     @ManyToOne
     @JoinColumn(name = "organizationid")
     private Organization organization;

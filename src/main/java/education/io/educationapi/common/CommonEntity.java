@@ -12,4 +12,12 @@ public abstract  class CommonEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "auto_gen")
     private  int id ;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
