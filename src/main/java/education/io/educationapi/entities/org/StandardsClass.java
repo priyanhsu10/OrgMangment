@@ -17,6 +17,23 @@ public class StandardsClass extends CommonEntity {
     @Column(length = 50)
     @NotNull
     private  String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Standard getStandard() {
+        return standard;
+    }
+
+    public void setStandard(Standard standard) {
+        this.standard = standard;
+    }
+
     @ManyToOne
     @JoinColumn(name = "standardid")
     private  Standard standard ;

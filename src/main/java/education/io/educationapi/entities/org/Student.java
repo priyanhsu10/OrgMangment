@@ -1,38 +1,26 @@
-package education.io.educationapi.Dtos;
+package education.io.educationapi.entities.org;
 
 import education.io.educationapi.common.CommonConstants;
 import education.io.educationapi.common.CommonEntity;
-import education.io.educationapi.common.CommonEntityDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.sql.Date;
 
-public class StudentDto extends CommonEntityDto {
-    @Size(max = 50)
+@Entity
+@Table(name ="tblstudents",schema = "public")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Student extends CommonEntity {
+    @Column(length = 50)
     @NotNull
     private String firstName;
-
-    public StudentDto() {
-    }
-
-    public StudentDto(String firstName, String middleName, String lastName, long salary, String address, Date birthdate, int age, int gender, StandardDto standard, StandardsClassDto standardsClass, OrganizationDto organization) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.salary = salary;
-        this.address = address;
-        this.birthdate = birthdate;
-        this.age = age;
-        this.gender = gender;
-        this.standard = standard;
-        this.standardsClass = standardsClass;
-        this.organization = organization;
-    }
+    @Column(length = 50)
+    private String  middleName;
 
     public String getFirstName() {
         return firstName;
@@ -98,33 +86,31 @@ public class StudentDto extends CommonEntityDto {
         this.gender = gender;
     }
 
-    public StandardDto getStandard() {
+    public Standard getStandard() {
         return standard;
     }
 
-    public void setStandard(StandardDto standard) {
+    public void setStandard(Standard standard) {
         this.standard = standard;
     }
 
-    public StandardsClassDto getStandardsClass() {
+    public StandardsClass getStandardsClass() {
         return standardsClass;
     }
 
-    public void setStandardsClass(StandardsClassDto standardsClass) {
+    public void setStandardsClass(StandardsClass standardsClass) {
         this.standardsClass = standardsClass;
     }
 
-    public OrganizationDto getOrganization() {
+    public Organization getOrganization() {
         return organization;
     }
 
-    public void setOrganization(OrganizationDto organization) {
+    public void setOrganization(Organization organization) {
         this.organization = organization;
     }
 
-    @Size(max = 50)
-    private String  middleName;
-    @Size(max = 50)
+    @Column(length = 50)
     @NotNull
     private String lastName;
     private long salary;
@@ -133,7 +119,13 @@ public class StudentDto extends CommonEntityDto {
     private Date birthdate;
     private int age;
     private  int gender= CommonConstants.Gender.MALE;
-    private StandardDto standard ;
-    private StandardsClassDto standardsClass;
-    private OrganizationDto organization;
+    @ManyToOne
+    @JoinColumn(name ="currentstandardid" )
+    private  Standard standard ;
+    @ManyToOne
+    @JoinColumn(name ="currentclassId" )
+    private  StandardsClass standardsClass;
+    @ManyToOne
+    @JoinColumn(name ="organizationId" )
+    private  Organization organization;
 }

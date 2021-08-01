@@ -18,6 +18,23 @@ public class Standard  extends CommonEntity {
     @Column(length = 50)
     @NotNull
     private  String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Collection<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(Collection<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
     @OneToMany
     @JoinTable (name = "lnkstandardsubject",schema = "public",
             joinColumns = @JoinColumn(name = "standardid"),

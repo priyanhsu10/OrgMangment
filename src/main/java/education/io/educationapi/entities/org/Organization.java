@@ -12,9 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tblorganizations", schema = "public")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Organization extends CommonEntity {
     @Column(length = 100)
     @NotNull
@@ -23,4 +21,13 @@ public class Organization extends CommonEntity {
     private String description;
     @Column(length = 400)
     private String address;
+
+    public Organization() {
+    }
+
+    public Organization(String name, String description, String address) {
+        this.name = name;
+        this.description = description;
+        this.address = address;
+    }
 }
