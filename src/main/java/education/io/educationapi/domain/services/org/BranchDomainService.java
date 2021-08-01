@@ -40,7 +40,6 @@ public class BranchDomainService implements IBranchDomainService {
         Organization org = organizationRepository.findById(orgId).orElseThrow(() -> new RuntimeException("OrganizationNotFound"));
         Branch b = mapper.toBranch(branchDto);
         b.setOrganization(org);
-        branchRepository.save(b);
         return mapper.toBranchDto(branchRepository.save(b));
     }
 
@@ -49,7 +48,6 @@ public class BranchDomainService implements IBranchDomainService {
         Organization org = organizationRepository.findById(orgId).orElseThrow(() -> new RuntimeException("OrganizationNotFound"));
         Branch b = mapper.toBranch(branchDto);
         b.setOrganization(org);
-        branchRepository.save(b);
         return mapper.toBranchDto(branchRepository.save(b));
     }
 }

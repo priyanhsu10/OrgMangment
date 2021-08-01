@@ -25,9 +25,11 @@ public interface IMapper {
     List<StandardsClassDto> StandardsClassToStandardsClassDto(Iterable<StandardsClass> list);
 
     DepartmentDto departmentToDepartmentDto(Department department);
+    Department  toDepartment(DepartmentDto departmentDto);
     List<DepartmentDto> departmentToDepartmentDto(Iterable<Department> departmentList);
 
     SubjectDto subjectToSubjectDto(Subject subject);
+    Subject subjectDtoToSubject(SubjectDto subjectDto);
     List<SubjectDto> subjectsToSubjectDto(Iterable<Subject> departmentList);
 
     StaffDto staffToStaffDto( Staff staff);
