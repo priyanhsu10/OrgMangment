@@ -42,4 +42,10 @@ public class SubjectController {
         subjectDto.setId(id);
         return  new ResponseEntity( _iSubjectDomainService.update(id,subjectDto),HttpStatus.OK);
     }
+
+
+    @GetMapping("/name/{name}")
+    public String GetName(@PathVariable String id){
+        return "ok";
+    }
 }

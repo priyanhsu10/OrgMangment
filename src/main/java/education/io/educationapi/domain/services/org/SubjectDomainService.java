@@ -2,7 +2,6 @@ package education.io.educationapi.domain.services.org;
 
 import education.io.educationapi.Dtos.SubjectDto;
 import education.io.educationapi.domain.interfaces.org.ISubjectDomainService;
-import education.io.educationapi.entities.org.Branch;
 import education.io.educationapi.entities.org.Subject;
 import education.io.educationapi.mappers.IMapper;
 import education.io.educationapi.repositories.org.SubjectRepository;
@@ -13,7 +12,7 @@ import java.util.List;
 @Service
 public class SubjectDomainService implements ISubjectDomainService {
     private final SubjectRepository _subjectRepository;
-    private IMapper mapper;
+    private final IMapper mapper;
 
     public SubjectDomainService(SubjectRepository subjectRepository, IMapper iMapper ) {
         _subjectRepository = subjectRepository;

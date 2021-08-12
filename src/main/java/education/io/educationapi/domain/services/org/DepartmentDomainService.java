@@ -30,7 +30,7 @@ public class DepartmentDomainService implements IDepartmentDomainService {
     }
     @Override
     public List<DepartmentDto> getAll(int orgId, int branchId) {
-        return mapper.departmentToDepartmentDto(departmentRepository.FindByBranchIdAndOrganizationId(orgId,branchId));
+        return mapper.departmentToDepartmentDto(departmentRepository.findAllByBranchIdAndOrganizationId(orgId,branchId));
     }
 
     @Override

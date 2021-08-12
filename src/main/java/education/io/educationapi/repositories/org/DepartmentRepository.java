@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface DepartmentRepository extends CrudRepository<Department, Integer> {
-    List<Department> FindByBranchIdAndOrganizationId(int branchId, int organizationId);
+    List<Department> findAllByBranchIdAndOrganizationId(int branchId, int organizationId);
 }
