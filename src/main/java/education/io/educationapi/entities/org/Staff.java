@@ -14,7 +14,18 @@ import java.util.Collection;
 
 @Entity
 @Table(name ="tblstaffs",schema = "public")
-public class Staff extends CommonEntity {
+public class Staff{
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private  int id ;
+
+    public int getId()   {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     @Column(length = 50)
     @NotNull
    private String firstName;
@@ -34,8 +45,8 @@ public class Staff extends CommonEntity {
     private int age;
     private  int staffType= CommonConstants.StaffType.TEACHER;
     private  int gender= CommonConstants.Gender.MALE;
-    @ManyToOne
-    @JoinColumn(name = "departmentid")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "departmentid",referencedColumnName = "id")
     private  Department department;
 
  public String getFirstName() {
@@ -134,10 +145,10 @@ public class Staff extends CommonEntity {
   this.subjects = subjects;
  }
 
- @ManyToOne
-    @JoinColumn(name = "organizationId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizationId",referencedColumnName = "id")
     private  Organization organization;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "lnkstaffsubjects", schema = "public",joinColumns = @JoinColumn(name ="staffid" ),inverseJoinColumns = @JoinColumn(name = "subjectid"))
- private Collection<Subject> subjects;
+  private Collection<Subject> subjects;
 }

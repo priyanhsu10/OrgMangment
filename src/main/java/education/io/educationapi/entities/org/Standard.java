@@ -11,11 +11,22 @@ import java.util.Collection;
 
 @Entity
 @Table(name ="tblstandards",schema = "public")
-public class Standard  extends CommonEntity {
+public class Standard   {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private  int id ;
+
+    public int getId()   {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     public Standard() {
     }
 
-    @Column(length = 50)
+    @Column(length = 50,unique = true)
     @NotNull
     private  String name;
 
@@ -35,7 +46,7 @@ public class Standard  extends CommonEntity {
         this.subjects = subjects;
     }
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable (name = "lnkstandardsubject",schema = "public",
             joinColumns = @JoinColumn(name = "standardid"),
             inverseJoinColumns = @JoinColumn(name = "subjectid"))

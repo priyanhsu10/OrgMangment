@@ -13,7 +13,7 @@ public abstract  class CommonEntity {
     @SequenceGenerator(name = "auto_gen")
     private  int id ;
 
-    public int getId() {
+    public int getId()   {
         return id;
     }
 

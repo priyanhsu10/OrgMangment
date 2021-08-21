@@ -11,7 +11,19 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name ="tblclasses",schema = "public")
 
-public class StandardsClass extends CommonEntity {
+public class StandardsClass {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "auto_gen")
+    private  int id ;
+
+    public int getId()   {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     @Column(length = 50)
     @NotNull
     private  String name;
@@ -35,7 +47,7 @@ public class StandardsClass extends CommonEntity {
         this.standard = standard;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "standardid")
     private  Standard standard ;
 }

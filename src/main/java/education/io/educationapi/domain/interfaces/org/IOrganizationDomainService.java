@@ -4,11 +4,15 @@ import education.io.educationapi.Dtos.OrganizationDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface IOrganizationDomainService {
-    List<OrganizationDto> getAll();
-    OrganizationDto getById(Integer Id);
-    OrganizationDto create(OrganizationDto organizationDto);
-    OrganizationDto update(OrganizationDto organizationDto);
+    CompletableFuture<List<OrganizationDto>> getAll();
+
+    CompletableFuture<OrganizationDto> getById(Integer Id);
+
+    CompletableFuture<OrganizationDto> create(OrganizationDto organizationDto);
+
+    CompletableFuture<OrganizationDto> update(OrganizationDto organizationDto);
 
 }

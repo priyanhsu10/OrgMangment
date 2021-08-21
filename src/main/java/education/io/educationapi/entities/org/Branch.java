@@ -11,7 +11,18 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tblbraches",schema = "public")
-public class Branch extends CommonEntity {
+public class Branch {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private  int id ;
+
+    public int getId()   {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     @NotNull
     private String name;
     @Column(length = 200)
@@ -27,7 +38,7 @@ public class Branch extends CommonEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "organizationid")
+    @JoinColumn(name = "organizationid",referencedColumnName ="id")
     private Organization organization;
 
     public String getName() {

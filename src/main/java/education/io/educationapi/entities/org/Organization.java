@@ -5,15 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tblorganizations", schema = "public")
 
-public class Organization extends CommonEntity {
+public class Organization {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private  int id ;
+
+    public int getId()   {
+        return id;
+    }
     @Column(length = 100)
     @NotNull
     private String name;

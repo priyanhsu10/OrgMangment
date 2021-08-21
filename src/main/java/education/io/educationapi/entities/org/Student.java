@@ -13,7 +13,14 @@ import java.sql.Date;
 @Entity
 @Table(name ="tblstudents",schema = "public")
 
-public class Student extends CommonEntity {
+public class Student  {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private  int id ;
+
+    public int getId()   {
+        return id;
+    }
     @Column(length = 50)
     @NotNull
     private String firstName;
@@ -120,13 +127,13 @@ public class Student extends CommonEntity {
     private Date birthdate;
     private int age;
     private  int gender= CommonConstants.Gender.MALE;
-    @ManyToOne
-    @JoinColumn(name ="currentstandardid" )
+    @ManyToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name ="currentstandardid",referencedColumnName = "id")
     private  Standard standard ;
-    @ManyToOne
-    @JoinColumn(name ="currentclassId" )
+    @ManyToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name ="currentclassId",referencedColumnName = "id" )
     private  StandardsClass standardsClass;
-    @ManyToOne
-    @JoinColumn(name ="organizationId" )
+    @ManyToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name ="organizationId",referencedColumnName = "id" )
     private  Organization organization;
 }

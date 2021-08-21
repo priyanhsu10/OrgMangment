@@ -10,7 +10,18 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name ="tbldepartments",schema = "public")
-public class Department extends CommonEntity {
+public class Department  {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private  int id ;
+
+    public int getId()   {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     @NotNull
     private String name;
     @Column(length = 200)

@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/organizations")
@@ -22,24 +23,23 @@ public class OrganizationController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<OrganizationDto>>GetAll() {
+    public CompletableFuture<ResponseEntity<List<OrganizationDto>>> GetAll() {
 
-        return new ResponseEntity( organizationDomainService.getAll(), HttpStatus.OK);
+        return organizationDomainService.getAll().thenApply((x)->new ResponseEntity(x , HttpStatus.OK));
     }
     @GetMapping(path = "/{id}")
-    public ResponseEntity<OrganizationDto> getById(@PathVariable int id) {
+    public CompletableFuture<ResponseEntity<OrganizationDto>> getById(@PathVariable int id) {
 
-        return  new ResponseEntity(organizationDomainService.getById(id), HttpStatus.OK);
+        return  organizationDomainService.getById(id).thenApply(x-> new ResponseEntity(x, HttpStatus.OK));
     }
     @PostMapping("")
-    public ResponseEntity<OrganizationDto> create(@Valid @RequestBody OrganizationDto organizationDto) {
-
-        return   new ResponseEntity( organizationDomainService.create(organizationDto),HttpStatus.CREATED);
+    public CompletableFuture<ResponseEntity<OrganizationDto>> create(@Valid @RequestBody OrganizationDto organizationDto) {
+        return  organizationDomainService.create(organizationDto).thenApply(x-> new ResponseEntity(x, HttpStatus.CREATED));
     }
     @PutMapping("/{id}")
-    public  ResponseEntity<OrganizationDto> update( @PathVariable int id,@Valid  @RequestBody OrganizationDto organizationDto) {
-       // organizationDto.setId(id);
-        return  new ResponseEntity( organizationDomainService.update(organizationDto),HttpStatus.OK);
+    public  CompletableFuture<ResponseEntity<OrganizationDto>> update( @PathVariable int id,@Valid  @RequestBody OrganizationDto organizationDto) {
+       organizationDto.setId(id);
+        return  organizationDomainService.update(organizationDto).thenApply(x-> new ResponseEntity(x, HttpStatus.OK));
     }
 }
 

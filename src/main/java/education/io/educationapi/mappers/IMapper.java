@@ -19,9 +19,11 @@ public interface IMapper {
     List<BranchDto> toBranchDto(List<Branch> BranchList);
 
     StandardDto standardToStandardDto( Standard standard);
+    Standard  standardDtoToStandard( StandardDto standardDto);
     List<StandardDto> standardsToStandardDto(Iterable<Standard> list);
 
     StandardsClassDto standardsClassToStandardsClassDto( StandardsClass standardsClass);
+    StandardsClass  standardDtoClassToStandardsClass( StandardsClassDto standardsClassDto);
     List<StandardsClassDto> StandardsClassToStandardsClassDto(Iterable<StandardsClass> list);
 
     DepartmentDto departmentToDepartmentDto(Department department);
