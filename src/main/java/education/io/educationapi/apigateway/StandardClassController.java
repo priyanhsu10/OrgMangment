@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/standards/{standardId}/classes")
@@ -23,24 +24,23 @@ public class StandardClassController {
         _iStandardClassDomainService = iStandardClassDomainService;
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<StandardsClassDto>> GetAll(@PathVariable int standardId ) {
+    @GetMapping
+    public CompletableFuture<ResponseEntity<List<StandardsClassDto>>> GetAll(@PathVariable int standardId ) {
 
-        return new ResponseEntity( _iStandardClassDomainService.getAll(standardId), HttpStatus.OK);
+        return  _iStandardClassDomainService.getAll(standardId).thenApply(x-> new ResponseEntity(x, HttpStatus.OK));
     }
     @GetMapping(path = "/{id}")
-    public ResponseEntity<StandardsClassDto> getById( @PathVariable int standardId,@PathVariable int id) {
-
-        return  new ResponseEntity(_iStandardClassDomainService.getById(standardId,id), HttpStatus.OK);
+    public CompletableFuture<ResponseEntity<ResponseEntity<StandardsClassDto>>> getById( @PathVariable int standardId,@PathVariable int id) {
+        return  _iStandardClassDomainService.getById(standardId,id).thenApply(x-> new ResponseEntity(x, HttpStatus.OK));
     }
-    @PostMapping("")
-    public ResponseEntity<StandardsClassDto> create(@Valid @RequestBody StandardsClassDto standardDto,@PathVariable int standardId) {
+    @PostMapping
+    public CompletableFuture<ResponseEntity<ResponseEntity<StandardsClassDto>>> create(@Valid @RequestBody StandardsClassDto standardDto,@PathVariable int standardId) {
 
-        return   new ResponseEntity( _iStandardClassDomainService.create(standardId,standardDto),HttpStatus.CREATED);
+        return  _iStandardClassDomainService.create(standardId,standardDto).thenApply(x-> new ResponseEntity(x, HttpStatus.CREATED));
     }
     @PutMapping("/{id}")
-    public  ResponseEntity<StandardsClassDto> update(@PathVariable int standardId, @PathVariable int id,@Valid  @RequestBody StandardsClassDto standardDto) {
+    public  CompletableFuture<ResponseEntity<ResponseEntity<StandardsClassDto>>> update(@PathVariable int standardId, @PathVariable int id,@Valid  @RequestBody StandardsClassDto standardDto) {
         standardDto.setId(id);
-        return  new ResponseEntity( _iStandardClassDomainService.update(id,standardId,standardDto),HttpStatus.OK);
+        return  _iStandardClassDomainService.update(id,standardId,standardDto).thenApply(x-> new ResponseEntity(x, HttpStatus.CREATED));
     }
 }

@@ -11,6 +11,8 @@ import education.io.educationapi.repositories.org.OrganizationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 @Service
 public class BranchDomainService implements IBranchDomainService {
     private final BranchRepository branchRepository;
@@ -24,30 +26,41 @@ public class BranchDomainService implements IBranchDomainService {
     }
 
     @Override
-    public List<BranchDto> getAll(int orgId) {
-        return mapper.toBranchDto(branchRepository.findByOrganizationId(orgId));
+    public CompletableFuture< List<BranchDto>> getAll(int orgId) {
+       return CompletableFuture.supplyAsync(()->branchRepository.findByOrganizationId(orgId))
+                .thenApply(e->mapper.toBranchDto(e));
     }
 
     @Override
-    public BranchDto getById(int orgId, int id) {
-        Branch branch = branchRepository.findById(id).orElseThrow(() -> new RuntimeException("BranchNotFound"));
-        return mapper.toBranchDto(branch);
+    public CompletableFuture< BranchDto> getById(int orgId, int id) {
+
+    return     CompletableFuture.supplyAsync(()-> branchRepository.findById(id).orElseThrow(() -> new RuntimeException("BranchNotFound")))
+                .thenApply(x->  mapper.toBranchDto(x));
+
     }
 
     @Override
-    public BranchDto create(int orgId, BranchDto branchDto) {
+    public CompletableFuture< BranchDto> create(int orgId, BranchDto branchDto) {
+      return CompletableFuture.supplyAsync(()->organizationRepository.findById(orgId).orElseThrow(() -> new RuntimeException("OrganizationNotFound")))
+               .thenApply(org-> this.createBranch(branchDto,org))
+               .thenApply(b-> mapper.toBranchDto(b));
 
-        Organization org = organizationRepository.findById(orgId).orElseThrow(() -> new RuntimeException("OrganizationNotFound"));
-        Branch b = mapper.toBranch(branchDto);
-        b.setOrganization(org);
-        return mapper.toBranchDto(branchRepository.save(b));
     }
-
+  private  Branch createBranch(BranchDto branchDto, Organization organization){
+      Branch b = mapper.toBranch(branchDto);
+      b.setOrganization(organization);
+      return branchRepository.save(b);
+  }
+  private  Branch updateBranch(Branch branch,BranchDto branchDto) {
+      branch.setDescription(branchDto.getDescription());
+      branch.setName(branchDto.getName());
+     return branchRepository.save(branch);
+  }
     @Override
-    public BranchDto update(int orgId, BranchDto branchDto) {
-        Organization org = organizationRepository.findById(orgId).orElseThrow(() -> new RuntimeException("OrganizationNotFound"));
-        Branch b = mapper.toBranch(branchDto);
-        b.setOrganization(org);
-        return mapper.toBranchDto(branchRepository.save(b));
+    public CompletableFuture< BranchDto> update(int orgId, BranchDto branchDto) {
+        return  CompletableFuture.supplyAsync(()->branchRepository.findByIdAndOrganizationId(branchDto.getId(),orgId).orElseThrow(() -> new RuntimeException("BranchNotFound")))
+                .thenApply(branch->updateBranch(branch,branchDto))
+                .thenApply(branch->mapper.toBranchDto(branch));
+
     }
 }

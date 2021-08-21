@@ -6,14 +6,15 @@ import education.io.educationapi.Dtos.SubjectDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public interface IStandardDomainService {
-    List<StandardDto> getAll();
+   CompletableFuture< List<StandardDto>> getAll();
 
-    StandardDto getById(int id);
+    CompletableFuture<StandardDto> getById(int id);
 
-    StandardDto create(StandardDto standardsClassDto);
+    CompletableFuture<StandardDto> create(StandardDto standardsClassDto);
 
-    StandardDto update(int id, StandardDto subjectDto);
+    CompletableFuture<StandardDto> update(int id, StandardDto subjectDto);
 }

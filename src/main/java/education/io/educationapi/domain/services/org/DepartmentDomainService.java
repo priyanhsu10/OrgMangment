@@ -9,9 +9,14 @@ import education.io.educationapi.mappers.IMapper;
 import education.io.educationapi.repositories.org.BranchRepository;
 import education.io.educationapi.repositories.org.DepartmentRepository;
 import education.io.educationapi.repositories.org.OrganizationRepository;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 @Service
 public class DepartmentDomainService implements IDepartmentDomainService {
@@ -21,44 +26,85 @@ public class DepartmentDomainService implements IDepartmentDomainService {
     private final IMapper mapper;
     private final OrganizationRepository organizationRepository;
     private final DepartmentRepository departmentRepository;
-    public DepartmentDomainService(DepartmentRepository departmentRepository,BranchRepository branchRepository, IMapper mapper,
+
+    public DepartmentDomainService(DepartmentRepository departmentRepository, BranchRepository branchRepository, IMapper mapper,
                                    OrganizationRepository organizationRepository) {
         this.branchRepository = branchRepository;
         this.mapper = mapper;
         this.organizationRepository = organizationRepository;
-        this.departmentRepository=departmentRepository;
+        this.departmentRepository = departmentRepository;
     }
-    @Override
-    public List<DepartmentDto> getAll(int orgId, int branchId) {
-        return mapper.departmentToDepartmentDto(departmentRepository.findAllByBranchIdAndOrganizationId(orgId,branchId));
+
+    private static RuntimeException getDepartmentBYId() {
+        return new RuntimeException("DepartmentNotFound");
     }
 
     @Override
-    public DepartmentDto getById(int orgId, int branchId, int id) {
-        Department department = departmentRepository.findById(id).orElseThrow(() -> new RuntimeException("DepartmentNotFound"));
-        return mapper.departmentToDepartmentDto(department);
+    public CompletableFuture<List<DepartmentDto>> getAll(int orgId, int branchId) {
+        return CompletableFuture.supplyAsync(() -> departmentRepository.findAllByBranchIdAndOrganizationId(orgId, branchId))
+                .thenApply(d -> mapper.departmentToDepartmentDto(d));
     }
 
     @Override
-    public DepartmentDto create(int orgId, int branchId, DepartmentDto departmentDto) {
-        Organization org = organizationRepository.findById(orgId).orElseThrow(() -> new RuntimeException("OrganizationNotFound"));
-        Branch branch = branchRepository.findById(branchId).orElseThrow(() -> new RuntimeException("BranchNotFound"));
+    public CompletableFuture<DepartmentDto> getById(int orgId, int branchId, int id) {
+       return CompletableFuture.supplyAsync(() -> departmentRepository.findById(id).orElseThrow(DepartmentDomainService::getDepartmentBYId))
+                .thenApply(d -> mapper.departmentToDepartmentDto(d));
+    }
+
+    @Override
+    public CompletableFuture<DepartmentDto> create(int orgId, int branchId, DepartmentDto departmentDto) {
+        return CompletableFuture.supplyAsync(() -> organizationRepository.findById(orgId).orElseThrow(() -> new RuntimeException("OrganizationNotFound")))
+                .thenApply(org -> getPair(org, branchId))
+                .thenApply(x -> saveDepartment(departmentDto, x))
+                .thenApply(d -> mapper.departmentToDepartmentDto(d));
+
+    }
+
+    private Department saveDepartment(DepartmentDto departmentDto, Pair<Organization, Branch> x) {
         Department department = mapper.toDepartment(departmentDto);
-        department.setBranch(branch);
-        department.setOrganization(org);
+        department.setBranch(x.getRight());
+        department.setOrganization(x.getLeft());
+        return departmentRepository.save(department);
+    }
 
-        return mapper.departmentToDepartmentDto(departmentRepository.save(department));
+    private Pair<Organization, Branch> getPair(Organization org, int branchId) {
+        Branch b = branchRepository.findById(branchId).orElseThrow(() -> new RuntimeException("BranchNotFound"));
+        return Pair.of(org, b);
+
     }
 
     @Override
-    public DepartmentDto update(int orgId, int branchId, int id, DepartmentDto branchDto) {
-      if( !branchRepository.existsById(branchId))throw new RuntimeException("BranchNotFound");
-      if( !organizationRepository.existsById(orgId))throw new RuntimeException("OrganizationNotFound");
+    public CompletableFuture<DepartmentDto> update(int orgId, int branchId, int id, DepartmentDto branchDto) {
+        return CompletableFuture.supplyAsync(validateBranchExist(branchId))
+                .thenRun(validateOrgExist(orgId))
+                .thenApply(getBranch(branchId))
+                .thenApply(updateDepartment(branchDto))
+                .thenApply(d -> mapper.departmentToDepartmentDto(d));
 
-        Department department = departmentRepository.findById(branchId).orElseThrow(() -> new RuntimeException("BranchNotFound"));
-        department.setName(branchDto.getName());
-        department.setDescription(branchDto.getDescription());
+    }
 
-        return mapper.departmentToDepartmentDto(departmentRepository.save(department));
+    private Function<Void, Department> getBranch(int branchId) {
+        return (c) -> departmentRepository.findById(branchId).orElseThrow(() -> new RuntimeException("BranchNotFound"));
+    }
+
+    private Supplier<Boolean> validateBranchExist(int branchId) {
+        return () -> {
+            if (!branchRepository.existsById(branchId)) throw new RuntimeException("BranchNotFound");
+            return true;
+        };
+    }
+
+    private Runnable validateOrgExist(int orgId) {
+        return () -> {
+            if (!organizationRepository.existsById(orgId)) throw new RuntimeException("OrganizationNotFound");
+        };
+    }
+
+    private Function<Department, Department> updateDepartment(DepartmentDto branchDto) {
+        return department -> {
+            department.setName(branchDto.getName());
+            department.setDescription(branchDto.getDescription());
+            return departmentRepository.save(department);
+        };
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/arg/{orgId}/branches")
@@ -20,24 +21,23 @@ public class BranchController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<OrganizationDto>> GetAll(@PathVariable int orgId) {
+    public CompletableFuture<ResponseEntity<List<OrganizationDto>>> GetAll(@PathVariable int orgId) {
 
-        return new ResponseEntity( _iBranchDomainService.getAll(orgId), HttpStatus.OK);
+        return  _iBranchDomainService.getAll(orgId).thenApply(x->new ResponseEntity(x,HttpStatus.OK));
     }
     @GetMapping(path = "/{id}")
-    public ResponseEntity<OrganizationDto> getById(@PathVariable int orgId,@PathVariable int id) {
+    public CompletableFuture<ResponseEntity<OrganizationDto>> getById(@PathVariable int orgId,@PathVariable int id) {
 
-        return  new ResponseEntity(_iBranchDomainService.getById(orgId,id), HttpStatus.OK);
+        return  _iBranchDomainService.getById(orgId,id).thenApply(x->new ResponseEntity(x, HttpStatus.OK));
     }
     @PostMapping("")
-    public ResponseEntity<OrganizationDto> create(@PathVariable int orgId ,@Valid @RequestBody BranchDto branchDto) {
+    public CompletableFuture<ResponseEntity<OrganizationDto>> create(@PathVariable int orgId ,@Valid @RequestBody BranchDto branchDto) {
 
-        return   new ResponseEntity( _iBranchDomainService.create(orgId,branchDto),HttpStatus.CREATED);
+        return   _iBranchDomainService.create(orgId,branchDto).thenApply(x->new ResponseEntity(x, HttpStatus.OK));
     }
     @PutMapping("/{id}")
-    public  ResponseEntity<OrganizationDto> update(@PathVariable int orgId , @PathVariable int id,@Valid  @RequestBody BranchDto branchDto) {
-        branchDto.setId(id);
-
-        return  new ResponseEntity( _iBranchDomainService.update(orgId,branchDto),HttpStatus.OK);
+    public  CompletableFuture<ResponseEntity<OrganizationDto>> update(@PathVariable int orgId , @PathVariable int id,@Valid  @RequestBody BranchDto branchDto) {
+           branchDto.setId(id);
+        return  _iBranchDomainService.update(orgId,branchDto).thenApply(x->new ResponseEntity(x, HttpStatus.OK));
     }
 }
