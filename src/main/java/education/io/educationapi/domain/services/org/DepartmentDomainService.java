@@ -71,6 +71,7 @@ public class DepartmentDomainService implements IDepartmentDomainService {
         Branch b = branchRepository.findById(branchId).orElseThrow(() -> new RuntimeException("BranchNotFound"));
         return Pair.of(org, b);
 
+
     }
 
     @Override
