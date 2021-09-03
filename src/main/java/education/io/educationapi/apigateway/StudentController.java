@@ -1,10 +1,13 @@
 package education.io.educationapi.apigateway;
 
 import education.io.educationapi.Dtos.StudentDto;
-import education.io.educationapi.Dtos.SubjectDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import education.io.educationapi.domain.interfaces.org.IStudentDomainService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
