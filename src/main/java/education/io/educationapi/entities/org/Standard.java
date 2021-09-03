@@ -46,7 +46,7 @@ public class Standard   {
         this.subjects = subjects;
     }
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable (name = "lnkstandardsubject",schema = "public",
             joinColumns = @JoinColumn(name = "standardid"),
             inverseJoinColumns = @JoinColumn(name = "subjectid"))
