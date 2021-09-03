@@ -17,14 +17,29 @@ public class StudentDto extends CommonEntityDto {
     @NotNull
     private String firstName;
 
+
+
+    @Size(max = 50)
+    private String  middleName;
+    @Size(max = 50)
+    @NotNull
+    private String lastName;
+    private long salary;
+    private String  address ;
+    @NotNull
+    private Date birthdate;
+    private int age;
+    private  int gender= CommonConstants.Gender.MALE;
+    private StandardDto standard ;
+    private StandardsClassDto standardsClass;
+    private OrganizationDto organization;
     public StudentDto() {
     }
 
-    public StudentDto(String firstName, String middleName, String lastName, long salary, String address, Date birthdate, int age, int gender, StandardDto standard, StandardsClassDto standardsClass, OrganizationDto organization) {
+    public StudentDto(String firstName, String middleName, String lastName,String address, Date birthdate, int age, int gender, StandardDto standard, StandardsClassDto standardsClass, OrganizationDto organization) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
-        this.salary = salary;
         this.address = address;
         this.birthdate = birthdate;
         this.age = age;
@@ -121,19 +136,4 @@ public class StudentDto extends CommonEntityDto {
     public void setOrganization(OrganizationDto organization) {
         this.organization = organization;
     }
-
-    @Size(max = 50)
-    private String  middleName;
-    @Size(max = 50)
-    @NotNull
-    private String lastName;
-    private long salary;
-    private String  address ;
-    @NotNull
-    private Date birthdate;
-    private int age;
-    private  int gender= CommonConstants.Gender.MALE;
-    private StandardDto standard ;
-    private StandardsClassDto standardsClass;
-    private OrganizationDto organization;
 }
