@@ -41,7 +41,7 @@ public class DepartmentDomainService implements IDepartmentDomainService {
 
     @Override
     public CompletableFuture<List<DepartmentDto>> getAll(int orgId, int branchId) {
-        return CompletableFuture.supplyAsync(() -> departmentRepository.findAllByBranchIdAndOrganizationId(orgId, branchId))
+        return CompletableFuture.supplyAsync(() -> departmentRepository.findAllByBranchIdAndOrganizationId( branchId,orgId))
                 .thenApply(d -> mapper.departmentToDepartmentDto(d));
     }
 
