@@ -8,6 +8,7 @@ import education.io.educationapi.repositories.org.SubjectRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class SubjectDomainService implements ISubjectDomainService {
@@ -20,28 +21,36 @@ public class SubjectDomainService implements ISubjectDomainService {
     }
 
     @Override
-    public List<SubjectDto> getAll() {
-       return  mapper.subjectsToSubjectDto(_subjectRepository.findAll());
+    public CompletableFuture<List<SubjectDto>>  getAll() {
+        return  CompletableFuture.supplyAsync(_subjectRepository::findAll)
+                .thenApply(mapper::subjectsToSubjectDto);
     }
 
     @Override
-    public SubjectDto getById(int id) {
-        Subject subject= _subjectRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("OrganizationNotFound"));
-        return  mapper.subjectToSubjectDto(subject);
+    public CompletableFuture<SubjectDto> getById(int id) {
+        return  CompletableFuture.supplyAsync(()->
+                _subjectRepository.findById(id).orElseThrow(()->new RuntimeException("OrganizationNotFound")))
+                .thenApply(mapper::subjectToSubjectDto);
     }
 
     @Override
-    public SubjectDto create(SubjectDto subjectDto) {
-        return mapper.subjectToSubjectDto(_subjectRepository.save( mapper.subjectDtoToSubject(subjectDto)));
+    public CompletableFuture< SubjectDto> create(SubjectDto subjectDto) {
+        return  CompletableFuture.supplyAsync(()->
+                _subjectRepository.save( mapper.subjectDtoToSubject(subjectDto)))
+                .thenApply(mapper::subjectToSubjectDto);
     }
 
     @Override
-    public SubjectDto update(int id, SubjectDto subjectDto) {
-        Subject subject = _subjectRepository.findById(id).orElseThrow(() -> new RuntimeException("OrganizationNotFound"));
+    public CompletableFuture<SubjectDto> update(int id, SubjectDto subjectDto) {
 
-        subject.setDescription(subjectDto.getDescription());
-        subject.setName(subjectDto.getName());
-        return mapper.subjectToSubjectDto(_subjectRepository.save(subject));
+        return  CompletableFuture.supplyAsync(()->
+                        _subjectRepository.findById(id).orElseThrow(()->new RuntimeException("OrganizationNotFound")))
+                .thenApply(subject->{
+                    subject.setDescription(subjectDto.getDescription());
+                    subject.setName(subjectDto.getName());
+                   return  _subjectRepository.save(subject);
+                })
+                .thenApply(mapper::subjectToSubjectDto);
+
     }
 }
