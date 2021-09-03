@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api/subjects")
@@ -23,29 +24,24 @@ public class SubjectController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<OrganizationDto>> GetAll() {
-
-        return new ResponseEntity( _iSubjectDomainService.getAll(), HttpStatus.OK);
+    public CompletableFuture< ResponseEntity<List<SubjectDto>> >GetAll() {
+       return  _iSubjectDomainService.getAll().thenApply(ResponseEntity::ok);
     }
     @GetMapping(path = "/{id}")
-    public ResponseEntity<SubjectDto> getById(@PathVariable int id) {
-
-        return  new ResponseEntity(_iSubjectDomainService.getById(id), HttpStatus.OK);
+    public CompletableFuture< ResponseEntity<SubjectDto>> getById(@PathVariable int id) {
+        return  _iSubjectDomainService.getById(id).thenApply(ResponseEntity::ok);
     }
     @PostMapping("")
-    public ResponseEntity<SubjectDto> create(@Valid @RequestBody SubjectDto subjectDto) {
+    public CompletableFuture<ResponseEntity<SubjectDto>> create(@Valid @RequestBody SubjectDto subjectDto) {
+        return  _iSubjectDomainService.create(subjectDto).thenApply(ResponseEntity::ok);
 
-        return   new ResponseEntity( _iSubjectDomainService.create(subjectDto),HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
-    public  ResponseEntity<SubjectDto> update( @PathVariable int id,@Valid  @RequestBody SubjectDto subjectDto) {
+    public  CompletableFuture<ResponseEntity<SubjectDto>> update( @PathVariable int id,@Valid  @RequestBody SubjectDto subjectDto) {
         subjectDto.setId(id);
-        return  new ResponseEntity( _iSubjectDomainService.update(id,subjectDto),HttpStatus.OK);
+        return  _iSubjectDomainService.update(id,subjectDto).thenApply(ResponseEntity::ok);
     }
 
 
-    @GetMapping("/name/{name}")
-    public String GetName(@PathVariable String id){
-        return "ok";
-    }
+
 }
