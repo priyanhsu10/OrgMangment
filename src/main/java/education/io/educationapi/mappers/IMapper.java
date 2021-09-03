@@ -1,10 +1,9 @@
 package education.io.educationapi.mappers;
 
 import education.io.educationapi.Dtos.*;
-import education.io.educationapi.domain.services.org.OrganizationDomainService;
 import education.io.educationapi.entities.org.*;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -37,6 +36,7 @@ public interface IMapper {
     StaffDto staffToStaffDto( Staff staff);
     List<StaffDto> staffToStaffDto(Iterable<Staff> list);
 
-    StudentDto subjectToStudentDto(Student student);
-    List<StudentDto> studentsToStudentDto(Iterable<Student> students);
+    StudentDto studentToStudentDto(Student student);
+    List<StudentDto> studentsToStudentDto(List<Student> students);
+    //Page<StudentDto> pageStudentToPageStudentDot(Page<Student>  students);
 }
