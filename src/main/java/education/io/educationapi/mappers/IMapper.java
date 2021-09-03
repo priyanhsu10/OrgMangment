@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface IMapper {
+public interface  IMapper {
     OrganizationDto organizationToOrganizationDto(Organization organization);
     Organization  organizationDtoToOrganization(OrganizationDto organization);
     List<OrganizationDto>  organizationToOrganizationDto(Iterable<Organization> organizationList);
