@@ -27,6 +27,24 @@ public class Student  {
     @Column(length = 50)
     private String  middleName;
 
+    @Column(length = 50)
+    @NotNull
+    private String lastName;
+    private String  address ;
+    @NotNull
+    private Date birthdate;
+    private int age;
+    private  int gender= CommonConstants.Gender.MALE;
+    @ManyToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name ="currentstandardid",referencedColumnName = "id")
+    private  Standard standard ;
+    @ManyToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name ="currentclassId",referencedColumnName = "id" )
+    private  StandardsClass standardsClass;
+    @ManyToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name ="organizationId",referencedColumnName = "id" )
+    private  Organization organization;
+
     public Student() {
     }
 
@@ -54,13 +72,6 @@ public class Student  {
         this.lastName = lastName;
     }
 
-    public long getSalary() {
-        return salary;
-    }
-
-    public void setSalary(long salary) {
-        this.salary = salary;
-    }
 
     public String getAddress() {
         return address;
@@ -118,22 +129,4 @@ public class Student  {
         this.organization = organization;
     }
 
-    @Column(length = 50)
-    @NotNull
-    private String lastName;
-    private long salary;
-    private String  address ;
-    @NotNull
-    private Date birthdate;
-    private int age;
-    private  int gender= CommonConstants.Gender.MALE;
-    @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name ="currentstandardid",referencedColumnName = "id")
-    private  Standard standard ;
-    @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name ="currentclassId",referencedColumnName = "id" )
-    private  StandardsClass standardsClass;
-    @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name ="organizationId",referencedColumnName = "id" )
-    private  Organization organization;
 }
