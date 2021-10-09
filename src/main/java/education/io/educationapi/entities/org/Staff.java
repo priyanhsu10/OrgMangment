@@ -146,7 +146,7 @@ public class Staff{
  }
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organizationId",referencedColumnName = "id")
+    @JoinColumn(name = "organizationid",referencedColumnName = "id")
     private  Organization organization;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "lnkstaffsubjects", schema = "public",joinColumns = @JoinColumn(name ="staffid" ),inverseJoinColumns = @JoinColumn(name = "subjectid"))

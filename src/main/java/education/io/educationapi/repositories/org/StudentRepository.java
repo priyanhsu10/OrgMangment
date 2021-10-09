@@ -15,10 +15,10 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
   List<Student> getByClassId(int classId);
   @Query("Select s from Student s where s.standard.id=:standardId")
   List<Student> getByStandardId(int standardId);
-  @Query("Select count(s.id) from Student s where s.organization.id=:orgId")
+  @Query(value = "Select count(id) from tblstudents s where organizationid=:orgId",nativeQuery = true)
   Integer getCountByOrganizationId(int orgId);
-  @Query("Select count(s.id) from Student s where s.standardsClass.id=:classId")
+  @Query(value = "Select count(s.id) from tblstudents s where organizationid=:classId",nativeQuery = true)
   Integer getCountByClassId(int classId);
-  @Query("Select count(s.id) from Student s where s.standard.id=:standardId")
+  @Query(value = "Select count(s.id) from tblstudents s where currentstandardid=:standardId",nativeQuery = true)
   Integer getCountByStandardId(int standardId);
 }

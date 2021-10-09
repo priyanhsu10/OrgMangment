@@ -18,7 +18,10 @@ public class SubjectDto extends CommonEntityDto {
     @NotNull
     private  String name;
 
-    public SubjectDto(int id,String name, String description) {
+    public SubjectDto() {
+    }
+
+    public SubjectDto(int id, String name, String description) {
         this.name = name;
         this.description = description;
         this.id= id;

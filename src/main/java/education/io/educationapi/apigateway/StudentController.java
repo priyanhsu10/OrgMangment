@@ -59,7 +59,7 @@ public class StudentController {
         return iStudentDomainService.getCountByStandardId(standardId).thenApply(x-> ResponseEntity.ok().body(x));
     }
 
-    @GetMapping("/slass/{classId}/count")
+    @GetMapping("/class/{classId}/count")
     public CompletableFuture<ResponseEntity<Integer>> getCountByClassId(@PathVariable int classId) {
         return iStudentDomainService.getCountByClassId(classId).thenApply(x-> ResponseEntity.ok().body(x));
     }

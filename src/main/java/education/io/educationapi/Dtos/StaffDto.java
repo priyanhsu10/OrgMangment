@@ -16,6 +16,7 @@ import java.util.Collection;
 public class StaffDto extends CommonEntityDto {
     @Size(max = 50)
     @NotNull
+
     private String firstName;
     @Column(length = 50)
     private String middleName;

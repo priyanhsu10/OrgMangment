@@ -21,13 +21,14 @@ public class Student  {
     public int getId()   {
         return id;
     }
-    @Column(length = 50)
+    @Column(name = "firstname",length = 50)
     @NotNull
+
     private String firstName;
-    @Column(length = 50)
+    @Column(name = "middlename",length = 50)
     private String  middleName;
 
-    @Column(length = 50)
+    @Column(name = "lastname",length = 50)
     @NotNull
     private String lastName;
     private String  address ;
@@ -39,10 +40,10 @@ public class Student  {
     @JoinColumn(name ="currentstandardid",referencedColumnName = "id")
     private  Standard standard ;
     @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name ="currentclassId",referencedColumnName = "id" )
+    @JoinColumn(name ="currentclassid",referencedColumnName = "id" )
     private  StandardsClass standardsClass;
     @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name ="organizationId",referencedColumnName = "id" )
+    @JoinColumn(name ="organizationid",referencedColumnName = "id" )
     private  Organization organization;
 
     public Student() {
