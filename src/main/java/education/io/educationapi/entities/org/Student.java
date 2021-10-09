@@ -1,50 +1,56 @@
 package education.io.educationapi.entities.org;
 
-import education.io.educationapi.common.CommonConstants;
-import education.io.educationapi.common.CommonEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
-@Entity
-@Table(name ="tblstudents",schema = "public")
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
-public class Student  {
+import education.io.educationapi.common.CommonConstants;
+
+@Entity
+@Table(name = "tblstudents", schema = "public")
+
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private  int id ;
+    private int id;
 
-    public int getId()   {
+    public int getId() {
         return id;
     }
-    @Column(name = "firstname",length = 50)
+
+    @Column(name = "firstname", length = 50)
     @NotNull
 
     private String firstName;
-    @Column(name = "middlename",length = 50)
-    private String  middleName;
+    @Column(name = "middlename", length = 50)
+    private String middleName;
 
-    @Column(name = "lastname",length = 50)
+    @Column(name = "lastname", length = 50)
     @NotNull
     private String lastName;
-    private String  address ;
+    private String address;
     @NotNull
     private Date birthdate;
     private int age;
-    private  int gender= CommonConstants.Gender.MALE;
-    @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name ="currentstandardid",referencedColumnName = "id")
-    private  Standard standard ;
-    @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name ="currentclassid",referencedColumnName = "id" )
-    private  StandardsClass standardsClass;
-    @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name ="organizationid",referencedColumnName = "id" )
-    private  Organization organization;
+    private int gender = CommonConstants.Gender.MALE;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "currentstandardid", referencedColumnName = "id")
+    private Standard standard;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "currentclassid", referencedColumnName = "id")
+    private StandardsClass standardsClass;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizationid", referencedColumnName = "id")
+    private Organization organization;
 
     public Student() {
     }
@@ -72,7 +78,6 @@ public class Student  {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
 
     public String getAddress() {
         return address;

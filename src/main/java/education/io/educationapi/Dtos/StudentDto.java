@@ -1,42 +1,38 @@
 package education.io.educationapi.Dtos;
 
-import education.io.educationapi.common.CommonConstants;
-import education.io.educationapi.common.CommonEntity;
-import education.io.educationapi.common.CommonEntityDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.sql.Date;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Date;
+
+import education.io.educationapi.common.CommonConstants;
+import education.io.educationapi.common.CommonEntityDto;
 
 public class StudentDto extends CommonEntityDto {
     @Size(max = 50)
     @NotNull
     private String firstName;
 
-
-
     @Size(max = 50)
-    private String  middleName;
+    private String middleName;
     @Size(max = 50)
     @NotNull
     private String lastName;
     private long salary;
-    private String  address ;
+    private String address;
     @NotNull
     private Date birthdate;
     private int age;
-    private  int gender= CommonConstants.Gender.MALE;
-    private StandardDto standard ;
+    private int gender = CommonConstants.Gender.MALE;
+    private StandardDto standard;
     private StandardsClassDto standardsClass;
     private OrganizationDto organization;
+
     public StudentDto() {
     }
 
-    public StudentDto(String firstName, String middleName, String lastName,String address, Date birthdate, int age, int gender, StandardDto standard, StandardsClassDto standardsClass, OrganizationDto organization) {
+    public StudentDto(String firstName, String middleName, String lastName, String address, Date birthdate, int age,
+            int gender, StandardDto standard, StandardsClassDto standardsClass, OrganizationDto organization) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;

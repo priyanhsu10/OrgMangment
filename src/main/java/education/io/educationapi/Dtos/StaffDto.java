@@ -1,17 +1,13 @@
 package education.io.educationapi.Dtos;
 
-import education.io.educationapi.common.CommonEntityDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Collection;
 
+import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import education.io.educationapi.common.CommonEntityDto;
 
 public class StaffDto extends CommonEntityDto {
     @Size(max = 50)
@@ -29,7 +25,9 @@ public class StaffDto extends CommonEntityDto {
     private String lastName;
     private long salary;
 
-    public StaffDto(String firstName, String middleName, String lastName, long salary, String address, Date birthdate, int age, int staffType, int gender, DepartmentDto department, OrganizationDto organization, Collection<SubjectDto> subjects) {
+    public StaffDto(String firstName, String middleName, String lastName, long salary, String address, Date birthdate,
+            int age, int staffType, int gender, DepartmentDto department, OrganizationDto organization,
+            Collection<SubjectDto> subjects) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;

@@ -23,21 +23,26 @@ public class BranchController {
     @GetMapping("")
     public CompletableFuture<ResponseEntity<List<OrganizationDto>>> GetAll(@PathVariable int orgId) {
 
-        return  _iBranchDomainService.getAll(orgId).thenApply(x->new ResponseEntity(x,HttpStatus.OK));
+        return _iBranchDomainService.getAll(orgId).thenApply(x -> new ResponseEntity(x, HttpStatus.OK));
     }
+
     @GetMapping(path = "/{id}")
-    public CompletableFuture<ResponseEntity<OrganizationDto>> getById(@PathVariable int orgId,@PathVariable int id) {
+    public CompletableFuture<ResponseEntity<OrganizationDto>> getById(@PathVariable int orgId, @PathVariable int id) {
 
-        return  _iBranchDomainService.getById(orgId,id).thenApply(x->new ResponseEntity(x, HttpStatus.OK));
+        return _iBranchDomainService.getById(orgId, id).thenApply(x -> new ResponseEntity(x, HttpStatus.OK));
     }
+
     @PostMapping("")
-    public CompletableFuture<ResponseEntity<OrganizationDto>> create(@PathVariable int orgId ,@Valid @RequestBody BranchDto branchDto) {
+    public CompletableFuture<ResponseEntity<OrganizationDto>> create(@PathVariable int orgId,
+            @Valid @RequestBody BranchDto branchDto) {
 
-        return   _iBranchDomainService.create(orgId,branchDto).thenApply(x->new ResponseEntity(x, HttpStatus.OK));
+        return _iBranchDomainService.create(orgId, branchDto).thenApply(x -> new ResponseEntity(x, HttpStatus.OK));
     }
+
     @PutMapping("/{id}")
-    public  CompletableFuture<ResponseEntity<OrganizationDto>> update(@PathVariable int orgId , @PathVariable int id,@Valid  @RequestBody BranchDto branchDto) {
-           branchDto.setId(id);
-        return  _iBranchDomainService.update(orgId,branchDto).thenApply(x->new ResponseEntity(x, HttpStatus.OK));
+    public CompletableFuture<ResponseEntity<OrganizationDto>> update(@PathVariable int orgId, @PathVariable int id,
+            @Valid @RequestBody BranchDto branchDto) {
+        branchDto.setId(id);
+        return _iBranchDomainService.update(orgId, branchDto).thenApply(x -> new ResponseEntity(x, HttpStatus.OK));
     }
 }

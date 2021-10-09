@@ -1,22 +1,14 @@
 package education.io.educationapi.Dtos;
 
-import education.io.educationapi.common.CommonEntity;
-import education.io.educationapi.common.CommonEntityDto;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import education.io.educationapi.common.CommonEntityDto;
 
 public class SubjectDto extends CommonEntityDto {
     @Size(max = 50)
     @NotNull
-    private  String name;
+    private String name;
 
     public SubjectDto() {
     }
@@ -24,7 +16,7 @@ public class SubjectDto extends CommonEntityDto {
     public SubjectDto(int id, String name, String description) {
         this.name = name;
         this.description = description;
-        this.id= id;
+        this.id = id;
     }
 
     public String getName() {
@@ -43,6 +35,6 @@ public class SubjectDto extends CommonEntityDto {
         this.description = description;
     }
 
-    @Size(max =200)
+    @Size(max = 200)
     private String description;
 }
